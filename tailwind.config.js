@@ -5,8 +5,18 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+    
+      container: {
+        center: true,
+        padding:{
+          DEFAULT:"1rem",
+          sm: "3rem",
+        }
+      }
+    },
   },
-  plugins: [],
+  // eslint-disable-next-line no-undef
+  plugins: [require('daisyui'),],
 }
 
