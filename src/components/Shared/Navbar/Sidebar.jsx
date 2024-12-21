@@ -9,11 +9,12 @@ const Sidebar = () => {
     return (
         <div className="drawer">
             <input id="my-drawer" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content">
+            <div className="drawer-content
+            border-2 hover:border-pink-400 p-2 rounded-lg hover:text-white hover:bg-pink-400">
 
-                <label htmlFor="my-drawer" className=" drawer-button"><FaBars /> </label>
+                <label htmlFor="my-drawer" className=" drawer-button "><FaBars /> </label>
             </div>
-            <div className="drawer-side  mt-[81px] ">
+            <div className="drawer-side  mt-[74px] ">
                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-100 text-pink-500 min-h-screen w-80 p-4 text-xl font-semibold space-y-2">
 
