@@ -17,7 +17,7 @@ const Banner = () => {
                     </p>
                     <button className="border-2 border-gray-200 ml-2 px-2 py-3
              lg:mt-2 md:mt-0 mt-3 text-lg font-semibold bg-pink-400
-              hover:bg-pink-500 text-black hover:text-white rounded-lg">Buy Now</button>
+              hover:bg-pink-500 text-black hover:text-white rounded-lg">Shop Now</button>
                 </div>
                 <div>
                     <Carousel />
