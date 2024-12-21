@@ -7,7 +7,7 @@ const Carousel = () => {
   const slides = [
     "https://media.istockphoto.com/id/924985612/photo/make-up-artist-is-working-with-face-of-gorgeous-model-cosmetic-manicure-and-make-up.webp?a=1&b=1&s=612x612&w=0&k=20&c=T_5x_catrstY2Y1RctLR5y0Aiq8dTk41cnPRNFBM_7c=",
     "https://media.istockphoto.com/id/495440338/photo/lilac-french-manicure.webp?a=1&b=1&s=612x612&w=0&k=20&c=dobt8E_VE_yFzQHJLRAtmq5_zUci5PJUHz12tEJ0X9M=",
-    "https://media.istockphoto.com/id/460823121/photo/beauty-closeup.webp?a=1&b=1&s=612x612&w=0&k=20&c=R_nHPR5VD1xlrheZ2p2Rd4z2Vj8qi-dU8YqIyeBo5aA=",
+    "https://media.istockphoto.com/id/185247771/photo/purple-eyes.jpg?s=612x612&w=0&k=20&c=OTte7kpJaAthEAZzIsyayhotZ3vZIwrRl-g4DSy6q2E=",
   ];
 
   return (

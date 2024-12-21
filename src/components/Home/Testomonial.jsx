@@ -42,7 +42,7 @@ const Testimonial = () => {
   return (
     <div className="py-16 bg-pink-50">
       <div className="container mx-auto text-center">
-        <h2 className="text-3xl font-bold text-gray-800">
+        <h2 className="text-4xl font-bold text-gray-800">
           Customer Testimonials
         </h2>
         <Swiper
