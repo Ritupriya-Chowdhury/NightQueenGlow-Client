@@ -4,7 +4,6 @@ import Home from '../pages/Home'
 import Products from "../pages/Products";
 import AboutUs from "../pages/AboutUs";
 import Contact from "../pages/Contact"
-import Login from "../pages/Login";
 import Page404 from "../pages/404Page";
 
 
@@ -38,10 +37,7 @@ const router = createBrowserRouter([
         }
       ]
     },
-    {
-      path:'/login',
-      element:<Login/>
-    },
+    
     {
       path:'/*',
       element:<Page404/>

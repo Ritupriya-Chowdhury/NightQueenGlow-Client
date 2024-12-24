@@ -56,7 +56,7 @@ const Category = () => {
         {categories.map((category) => (
           <div
             key={category.id}
-            className="mx-12 my-8 cursor-pointer  flex bg-pink-100 p-4 rounded-lg"
+            className="mx-8 my-8 cursor-pointer  flex bg-pink-100 p-4 rounded-lg"
             onClick={() => handleCategoryClick(category.Category)}
           >
             <div>

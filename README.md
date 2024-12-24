@@ -1,8 +1,26 @@
-# React + Vite
+<div align="center">
+  <h1>Car Rental Reservation System README File</h1>
+</div>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+---
 
-Currently, two official plugins are available:
+## Introduction
+RPCarRes Mean RP Car Reservation Services
+At RPCarRes Car Rentals, we're committed to delivering the perfect ride, whether you're embarking on a road trip adventure or cruising through the heart of the city.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Technology Uses
+
+- React-Vite, react-router-dom, react-hook-form, tailwind, DaisyUi, react-icons, react swiper, 
+
+
+### Backend Git Repository
+-  https://github.com/Ritupriya-Chowdhury/NightQueenGlow-Server
+
+### Frontend Git Repository
+-  https://github.com/Ritupriya-Chowdhury/NightQueenGlow-Client
+
+### Backend Api
+-  https://car-rental-sooty-theta.vercel.app
+
+### LiveHost Link
+-  https://shiny-khapse-286095.netlify.app/

@@ -6,7 +6,7 @@ import Logo from "../Navbar/Logo"
 const Footer = () => {
   return (
     <div>
-      <footer className="  p-10  bg-gray-200">
+      <footer className="  p-10  bg-pink-100">
 
         <div className="border-b-2 border-black py-8 grid lg:grid-cols-4 md:grid-cols-2 
         grid-cols-1 gap-4">
@@ -144,7 +144,7 @@ const Footer = () => {
         </div>
 
         <div>
-          <div className="mt-6 py-8 text-center text-xl opacity-75 font-semibold">
+          <div className="mt-6 py-8 text-center text-xl opacity-90 font-semibold">
             Created by <span className="text-pink-500">Developer Priya</span> | All Rights Reserved.
           </div>
         </div>
