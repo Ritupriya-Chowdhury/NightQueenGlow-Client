@@ -39,57 +39,56 @@ const categories = [
     },
   ];
 
-const Category = () => {
-  const navigate = useNavigate();
-
-  const handleCategoryClick = (category) => {
-    navigate(`/products?category=${encodeURIComponent(category)}`);
-  };
-
-  const handleNameClick = (name) => {
-    navigate(`/products?search=${encodeURIComponent(name)}`);
-  };
-
-  return (
-    <section>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-8 py-12 bg-white">
-        {categories.map((category) => (
-          <div
-            key={category.id}
-            className="mx-8 my-8 cursor-pointer  flex bg-pink-100 p-4 rounded-lg"
-            onClick={() => handleCategoryClick(category.Category)}
-          >
-            <div>
+  const Category = () => {
+    const navigate = useNavigate();
+  
+    const handleCategoryClick = (category) => {
+      navigate(`/products?category=${encodeURIComponent(category)}`);
+    };
+  
+    const handleNameClick = (name) => {
+      navigate(`/products?search=${encodeURIComponent(name)}`);
+    };
+  
+    return (
+      <section>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-8 py-12 bg-white">
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              className="mx-2 md:mx-8 my-8 cursor-pointer  flex bg-pink-100 p-4 rounded-lg"
+              onClick={() => handleCategoryClick(category.Category)}
+            >
               <div>
-              <img
-                src={category.image}
-                alt={category.Category}
-                className="w-[100px] h-[100px] object-cover mx-auto"
-              />
-              </div>
-              <p className="text-xl font-bold text-center mt-4 text-black">
-                {category.Category}
-              </p>
-            </div>
-            <div className="text-gray-700 mx-8">
-              {category.names.map((name, index) => (
-                <p
-                  key={index}
-                  className="text-lg font-medium cursor-pointer "
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleNameClick(name);
-                  }}
-                >
-                  {name}
+                <img
+                  src={category.image}
+                  alt={category.Category}
+                  className="w-[100px] h-[100px] object-cover mx-auto"
+                />
+                <p className="text-xl font-bold text-center mt-4 text-black">
+                  {category.Category}
                 </p>
-              ))}
+              </div>
+              <div className="text-gray-700 mx-8">
+                {category.names.map((name, index) => (
+                  <p
+                    key={index}
+                    className="text-lg font-medium cursor-pointer "
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleNameClick(name);
+                    }}
+                  >
+                    {name}
+                  </p>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-};
-
-export default Category;
+          ))}
+        </div>
+      </section>
+    );
+  };
+  
+  export default Category;
+  
