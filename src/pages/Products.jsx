@@ -2,34 +2,33 @@ import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Products = () => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("All");
-  const [sortOrder, setSortOrder] = useState("none");
-  const [categories, setCategories] = useState([]);
-  const [showAll, setShowAll] = useState(false); // For toggling the "View All" feature
+  const [products, setProducts] = useState([]); // All products
+  const [filteredProducts, setFilteredProducts] = useState([]); // Filtered products
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
+  const [searchTerm, setSearchTerm] = useState(""); // Search input value
+  const [selectedCategory, setSelectedCategory] = useState("All"); // Selected category
+  const [sortOrder, setSortOrder] = useState("none"); // Sort order
+  const [categories, setCategories] = useState([]); // List of categories
+  const [showAll, setShowAll] = useState(false); // Show all products or limit to 8
 
   const location = useLocation();
-  const history = useNavigate();
+  const navigate = useNavigate();
 
-  // Fetch products when the component mounts
+  // Fetch products from the API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await fetch(
           "https://night-queen-glow-server.vercel.app/products"
         );
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
-        }
+        if (!response.ok) throw new Error("Failed to fetch products");
         const data = await response.json();
+
         setProducts(data);
         setFilteredProducts(data);
 
-        // Extract unique categories for the category filter
+        // Extract unique categories and add "All"
         const uniqueCategories = ["All", ...new Set(data.map((product) => product.category))];
         setCategories(uniqueCategories);
       } catch (err) {
@@ -42,57 +41,62 @@ const Products = () => {
     fetchProducts();
   }, []);
 
-  // Filter products based on search term, category, rating, and sorting
+  // Update filtered products based on selected filters
   useEffect(() => {
     let filtered = [...products];
 
-    // Filter by category
     if (selectedCategory !== "All") {
       filtered = filtered.filter((product) => product.category === selectedCategory);
     }
 
-    // Search by name
     if (searchTerm) {
       filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
 
-    // Sort by price
     if (sortOrder === "asc") {
-      filtered = filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      filtered.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
     } else if (sortOrder === "desc") {
-      filtered = filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      filtered.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
     }
 
     setFilteredProducts(filtered);
   }, [searchTerm, selectedCategory, sortOrder, products]);
 
-  // Update category from URL if necessary
+  // Handle category and search term from URL params
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const category = params.get("category");
+    const name = params.get("name");
     if (category) {
       setSelectedCategory(category);
     }
+    if (name) {
+      setSearchTerm(name);
+    }
   }, [location.search]);
 
+  // Handle category change
   const handleCategoryChange = (category) => {
     setSelectedCategory(category);
-    history.push(`/products?category=${category}`);
+    navigate(`/products?category=${category}`);
   };
 
+  // Handle clearing all filters
   const handleClearFilters = () => {
     setSearchTerm("");
     setSelectedCategory("All");
     setSortOrder("none");
     setShowAll(false);
     setFilteredProducts(products);
+    navigate("/products");
   };
 
-  const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, 8); // Show all or first 8 products
+  // Determine products to display
+  const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, 8);
 
-  // Handle loading state
+  // Loading state
   if (loading) {
     return (
       <div className="flex justify-center items-center h-screen">
@@ -101,7 +105,7 @@ const Products = () => {
     );
   }
 
-  // Handle error state
+  // Error state
   if (error) {
     return (
       <div className="flex justify-center items-center h-screen text-red-500">
@@ -110,23 +114,39 @@ const Products = () => {
     );
   }
 
+  // Empty state
+  if (filteredProducts.length === 0) {
+    return (
+      <div className="min-h-screen bg-pink-200 pt-32">
+        <div className="container mx-auto p-6 text-center">
+          <h1 className="text-2xl font-bold mb-4">No products found</h1>
+          <button
+            className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600"
+            onClick={handleClearFilters}
+          >
+            Clear Filters
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Main component rendering
   return (
     <div className="min-h-screen bg-pink-200 pt-32">
       <div className="container mx-auto p-6">
         {/* Filters */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
-          {/* Search Bar */}
-          <div className="flex items-center gap-2 w-full md:w-1/3">
-            <input
-              type="text"
-              placeholder="Search by name..."
-              className="p-2 border rounded flex-grow"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-            />
-          </div>
+          {/* Search */}
+          <input
+            type="text"
+            placeholder="Search by name..."
+            className="p-2 border rounded w-full md:w-1/3"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
 
-          {/* Category Filter */}
+          {/* Category */}
           <select
             className="p-2 border rounded w-full md:w-1/4"
             value={selectedCategory}
@@ -139,7 +159,7 @@ const Products = () => {
             ))}
           </select>
 
-          {/* Sort by Price */}
+          {/* Sort */}
           <select
             className="p-2 border rounded w-full md:w-1/4"
             value={sortOrder}
@@ -150,10 +170,9 @@ const Products = () => {
             <option value="desc">High to Low</option>
           </select>
 
-          {/* Clear Filters Button */}
+          {/* Clear Filters */}
           <button
-            className="bg-pink-500 text-white px-3 py-2 
-            rounded hover:bg-pink-600"
+            className="bg-pink-500 text-white px-3 py-2 rounded hover:bg-pink-600"
             onClick={handleClearFilters}
           >
             Clear Filters
@@ -186,7 +205,7 @@ const Products = () => {
           ))}
         </div>
 
-        {/* View All Button */}
+        {/* View All */}
         {!showAll && filteredProducts.length > 8 && (
           <div className="flex justify-center mt-12 py-12">
             <button
