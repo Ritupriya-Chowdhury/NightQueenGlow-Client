@@ -4,28 +4,66 @@ import { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
-  const { setUser } = useContext(AuthContext);
+  const { GoogleSignIn, setUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
   const [error, setError] = useState(null);
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
+  // Handle Google Sign-In
+  const handleGoogleSignIn = () => {
+    GoogleSignIn()
+      .then((result) => {
+        const loggedUser = result.user;
+
+        const userData = {
+          name: loggedUser.displayName,
+          email: loggedUser.email,
+          role: "buyer", // Default role
+          wishlist: [], // Default wishlist
+        };
+
+        // Save user data to the database
+        fetch("https://night-queen-glow-server.vercel.app/users", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(userData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log("User saved to database:", data);
+            setUser(userData); // Set user in context
+            document.getElementById("my_modal_1")?.close(); // Close modal
+          });
+      })
+      .catch((error) => {
+        console.error("Google Sign-In Error:", error);
+      });
+  };
+
+  // Handle form-based login
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null); // Reset previous errors
 
     try {
-      // Fetch the user by email from the server
+      // Fetch all users from the server
       const response = await fetch(
-        `https://night-queen-glow-server.vercel.app/user/email/${email}`
+        `https://night-queen-glow-server.vercel.app/users/email/${email}`
+      );
+      const users = await response.json();
+
+      // Check if user exists
+      const foundUser = users.find(
+        (user) => user.email === email
       );
 
-      if (!response.ok) {
+      if (!foundUser) {
         setError("User not found. Please check your email.");
         return;
       }
-
-      const foundUser = await response.json();
 
       // Validate password
       if (foundUser.password !== password) {
@@ -82,7 +120,7 @@ const Login = () => {
                 </label>
                 <div className="relative">
                   <input
-                    type={showPassword ? "text" : "password"} // Toggle between text and password
+                    type={showPassword ? "text" : "password"}
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
@@ -91,8 +129,8 @@ const Login = () => {
                   />
                   <button
                     type="button"
-                    className="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-gray-800 focus:outline-none"
-                    onClick={() => setShowPassword(!showPassword)} // Toggle visibility
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute right-3 top-3 text-gray-600"
                   >
                     {showPassword ? "Hide" : "Show"}
                   </button>
@@ -110,6 +148,12 @@ const Login = () => {
               </button>
             </form>
 
+            <button
+              className="mt-4 w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
+              onClick={handleGoogleSignIn}
+            >
+              Sign in with Google
+            </button>
             <div className="mt-4 w-full bg-pink-500 text-center text-white py-2 px-4 rounded-md hover:bg-pink-600">
               <Link to="/signup">Sign Up</Link>
             </div>

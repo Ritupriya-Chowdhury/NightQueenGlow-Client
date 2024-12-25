@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useContext } from "react";
+import { AuthContext } from "../components/Provider/AuthCotext";
 
 const Products = () => {
   const [products, setProducts] = useState([]); // All products
@@ -11,9 +13,11 @@ const Products = () => {
   const [sortOrder, setSortOrder] = useState("none"); // Sort order
   const [categories, setCategories] = useState([]); // List of categories
   const [showAll, setShowAll] = useState(false); // Show all products or limit to 8
+  
 
   const location = useLocation();
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   // Fetch products from the API
   useEffect(() => {
@@ -196,9 +200,23 @@ const Products = () => {
                 <p className="text-sm text-gray-600 truncate">{product.category}</p>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-lg font-bold text-pink-500">${product.price}</span>
-                  <button className="bg-pink-500 text-white px-3 py-1 rounded shadow hover:bg-pink-600">
-                    Shop Now
-                  </button>
+                  <div className="flex gap-2">
+                    <Link to={`/products/${product._id}`}
+                      className="bg-pink-400 text-white px-3 py-1 rounded shadow hover:bg-pink-500"
+                      
+                    >
+                      View Details
+                    </Link>
+                    <button
+                      className={`${
+                        user ? "bg-pink-500 hover:bg-pink-600" : "bg-gray-400 cursor-not-allowed"
+                      } text-white px-3 py-1 rounded shadow`}
+                      onClick={() => navigate(`/cart`)} // Navigate to cart page (if exists)
+                      disabled={!user} // Disable the button if user is not logged in
+                    >
+                      Shop Now
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>

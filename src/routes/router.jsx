@@ -6,6 +6,7 @@ import AboutUs from "../pages/AboutUs";
 import Contact from "../pages/Contact"
 import Page404 from "../pages/404Page";
 import Registration from "../pages/Registration";
+import ProductDetails from "../pages/ProductDetails";
 
 
 
@@ -25,8 +26,8 @@ const router = createBrowserRouter([
           element: <Products />
         },
         {
-          path: 'products',
-          element: <Products />
+          path: 'products/:id',
+          element: <ProductDetails />
         },
         {
           path: 'about',
