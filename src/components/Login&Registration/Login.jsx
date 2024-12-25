@@ -1,37 +1,46 @@
 import { HiOutlineXMark } from "react-icons/hi2";
-import { AuthContext } from "../Provider/AuthCotext"; 
-import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthCotext";
+import { useState, useContext } from "react";
+import { Link } from "react-router-dom";
 
 const Login = () => {
-  const { GoogleSignIn } = useContext(AuthContext);
+  const { setUser } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
+  const [error, setError] = useState(null);
 
-  // Sign in with Google
-  const handleGoogleSignIn = () => {
-    GoogleSignIn()
-      .then((result) => {
-        const loggedUser = result.user;
-        console.log("Logged User:", loggedUser);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError(null); // Reset previous errors
 
-        // Example: Save user data to the database
-        fetch("https://night-queen-glow-server.vercel.app/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: loggedUser.displayName,
-            email: loggedUser.email,
-            role: "buyer", // Default role
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("User saved to database:", data);
-          });
-      })
-      .catch((error) => {
-        console.error("Google Sign-In Error:", error);
-      });
+    try {
+      // Fetch the user by email from the server
+      const response = await fetch(
+        `https://night-queen-glow-server.vercel.app/user/email/${email}`
+      );
+
+      if (!response.ok) {
+        setError("User not found. Please check your email.");
+        return;
+      }
+
+      const foundUser = await response.json();
+
+      // Validate password
+      if (foundUser.password !== password) {
+        setError("Invalid password. Please try again.");
+        return;
+      }
+
+      // Successful login
+      setUser(foundUser); // Set user in context
+      document.getElementById("my_modal_1")?.close(); // Close modal
+      console.log("Login successful:", foundUser);
+    } catch (err) {
+      setError("Error during login. Please try again.");
+      console.error("Login error:", err);
+    }
   };
 
   return (
@@ -46,9 +55,7 @@ const Login = () => {
           <div className="bg-white shadow-md rounded-lg p-6 w-full max-w-md">
             <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
 
-            {/* Login Form */}
-            <form className="space-y-4">
-              {/* Email Field */}
+            <form className="space-y-4" onSubmit={handleLogin}>
               <div>
                 <label
                   htmlFor="email"
@@ -59,11 +66,13 @@ const Login = () => {
                 <input
                   type="email"
                   id="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  required
                 />
               </div>
 
-              {/* Password Field */}
               <div>
                 <label
                   htmlFor="password"
@@ -71,14 +80,28 @@ const Login = () => {
                 >
                   Password
                 </label>
-                <input
-                  type="password"
-                  id="password"
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
-                />
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"} // Toggle between text and password
+                    id="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    required
+                  />
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-3 flex items-center text-gray-600 hover:text-gray-800 focus:outline-none"
+                    onClick={() => setShowPassword(!showPassword)} // Toggle visibility
+                  >
+                    {showPassword ? "Hide" : "Show"}
+                  </button>
+                </div>
               </div>
 
-              {/* Submit Button */}
+              {/* Display error message */}
+              {error && <p className="text-red-500 text-sm">{error}</p>}
+
               <button
                 type="submit"
                 className="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700"
@@ -87,13 +110,9 @@ const Login = () => {
               </button>
             </form>
 
-            {/* Google Login */}
-            <button
-              className="mt-4 w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600"
-              onClick={handleGoogleSignIn}
-            >
-              Sign in with Google
-            </button>
+            <div className="mt-4 w-full bg-pink-500 text-center text-white py-2 px-4 rounded-md hover:bg-pink-600">
+              <Link to="/signup">Sign Up</Link>
+            </div>
           </div>
         </div>
       </dialog>

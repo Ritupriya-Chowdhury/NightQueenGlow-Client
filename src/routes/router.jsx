@@ -5,6 +5,7 @@ import Products from "../pages/Products";
 import AboutUs from "../pages/AboutUs";
 import Contact from "../pages/Contact"
 import Page404 from "../pages/404Page";
+import Registration from "../pages/Registration";
 
 
 
@@ -36,8 +37,11 @@ const router = createBrowserRouter([
           element: <Contact/>
         }
       ]
+    }, 
+    {
+      path:'/signup',
+      element:<Registration/>
     },
-    
     {
       path:'/*',
       element:<Page404/>
