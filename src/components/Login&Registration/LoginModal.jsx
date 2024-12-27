@@ -1,7 +1,9 @@
 import { useContext } from "react";
 import { AuthContext } from "../Provider/AuthCotext";
-import { IoMdLogIn, IoMdLogOut } from "react-icons/io";
+import { IoMdLogIn } from "react-icons/io";
 import Login from "./Login";
+import { RiLogoutCircleLine } from "react-icons/ri";
+
 
 const LoginModal = () => {
   const { user, logOut } = useContext(AuthContext); // Get `logOut` from context
@@ -22,7 +24,7 @@ const LoginModal = () => {
         <button onClick={handleLogOut}>
           <div className="flex">
             <p className="py-1 text-xl pr-1">
-              <IoMdLogOut />
+            <RiLogoutCircleLine />
             </p>
             <p>Logout</p>
           </div>

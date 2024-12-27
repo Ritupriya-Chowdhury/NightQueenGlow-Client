@@ -1,85 +1,113 @@
 import { HiOutlineXMark } from "react-icons/hi2";
 import { AuthContext } from "../Provider/AuthCotext";
 import { useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Login = () => {
-  const { GoogleSignIn, setUser } = useContext(AuthContext);
+  const { GoogleSignIn, loginUser, setUser, user } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
+  const navigate = useNavigate(); // Hook for navigation
+
+
+
+  async function getUserData(email, token) {
+    try {
+      const response = await fetch(`https://night-queen-glow-server.vercel.app/users/email/${email}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, // Include the JWT token for authentication
+          'Content-Type': 'application/json',
+        },
+      });
+  
+      if (!response.ok) {
+        if (response.status === 404) {
+          throw new Error('User not found');
+        } else {
+          throw new Error('Failed to fetch user');
+        }
+      }
+  
+      const user = await response.json();
+      
+      return user;
+    } catch (error) {
+      console.error('Error:', error.message);
+    }
+  }
 
   // Handle Google Sign-In
-  const handleGoogleSignIn = () => {
-    GoogleSignIn()
-      .then((result) => {
-        const loggedUser = result.user;
-
-        const userData = {
-          name: loggedUser.displayName,
-          email: loggedUser.email,
-          role: "buyer", // Default role
-          wishlist: [], // Default wishlist
-        };
-
-        // Save user data to the database
-        fetch("https://night-queen-glow-server.vercel.app/users", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log("User saved to database:", data);
-            setUser(userData); // Set user in context
-            document.getElementById("my_modal_1")?.close(); // Close modal
-          });
-      })
-      .catch((error) => {
-        console.error("Google Sign-In Error:", error);
-      });
-  };
-
-  // Handle form-based login
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    setError(null); // Reset previous errors
-
+  const handleGoogleSignIn = async () => {
     try {
-      // Fetch all users from the server
-      const response = await fetch(
-        `https://night-queen-glow-server.vercel.app/users/email/${email}`
-      );
-      const users = await response.json();
-
-      // Check if user exists
-      const foundUser = users.find(
-        (user) => user.email === email
-      );
-
-      if (!foundUser) {
-        setError("User not found. Please check your email.");
-        return;
+      const result = await GoogleSignIn();
+      const loggedUser = result.user;
+    
+      const userEmail=loggedUser.email;
+  
+      // Send the user's email to generate a JWT
+      const response = await fetch('https://night-queen-glow-server.vercel.app/jwt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify( {email:userEmail} ),
+      });
+      console.log(response)
+  
+      if (!response.ok) {
+        throw new Error('Failed to generate JWT token');
       }
-
-      // Validate password
-      if (foundUser.password !== password) {
-        setError("Invalid password. Please try again.");
-        return;
-      }
-
-      // Successful login
-      setUser(foundUser); // Set user in context
-      document.getElementById("my_modal_1")?.close(); // Close modal
-      console.log("Login successful:", foundUser);
-    } catch (err) {
-      setError("Error during login. Please try again.");
-      console.error("Login error:", err);
+  
+      const { token } = await response.json();
+      localStorage.setItem('jwt', token); // Store token for future requests
+  
+      const userData = await getUserData(loggedUser.email, token);
+      setUser(userData)
+  
+      navigate('/buyer-dashboard');
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      setError("Google Sign-In failed. Please try again.");
     }
   };
+
+  // Handle form-based login using AuthContext's loginUser function
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError(null);
+  
+    try {
+      const result = await loginUser(email, password);
+      const loggedUser = result.user;
+  
+      // Generate JWT token
+      const response = await fetch('https://night-queen-glow-server.vercel.app/jwt', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: loggedUser.email }),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Failed to generate JWT token');
+      }
+  
+      const { token } = await response.json();
+      localStorage.setItem('jwt', token); // Store token for future requests
+  
+      const userData = await getUserData(loggedUser.email, token);
+      setUser(userData)
+      console.log("My User==>",user)
+  
+      document.getElementById("my_modal_1")?.close(); // Close modal
+      navigate('/buyer-dashboard');
+    } catch (err) {
+      console.error("Login Error:", err);
+      setError("Invalid email or password. Please try again.");
+    }
+  };
+  
 
   return (
     <div>
@@ -130,7 +158,7 @@ const Login = () => {
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute right-3 top-3 text-gray-600"
+                    className="absolute right-3 top-0 text-gray-600"
                   >
                     {showPassword ? "Hide" : "Show"}
                   </button>

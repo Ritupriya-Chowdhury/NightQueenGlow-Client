@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../components/Provider/AuthCotext"; // Import the AuthContext
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -29,6 +30,7 @@ const Registration = () => {
   const [loading, setLoading] = useState(false);
   const [serverMessage, setServerMessage] = useState("");
 
+  const { createUser } = useContext(AuthContext); // Use the createUser function from AuthContext
   const navigate = useNavigate(); // Initialize useNavigate for navigation
 
   const {
@@ -43,38 +45,17 @@ const Registration = () => {
   const onSubmit = async (data) => {
     setLoading(true);
     setServerMessage("");
-  
+
     try {
-      const response = await fetch(
-        "https://night-queen-glow-server.vercel.app/users",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: data.name,
-            email: data.email,
-            password: data.password, 
-            role: "buyer", 
-            wishlist: [], // Default empty wishlist
-          }),
-        }
-      );
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setServerMessage("Registration successful!");
-        reset(); // Reset form inputs
-        setTimeout(() => {
-          navigate("/"); // Redirect to the home page after a short delay
-        }, 1500);
-      } else {
-        setServerMessage(result.message || "Failed to register.");
-      }
+      const result = await createUser(data.email, data.password, data.name); 
+      console.log(result)// Register the user with the context
+      setServerMessage("Registration successful!");
+      reset(); // Reset form inputs
+      setTimeout(() => {
+        navigate("/"); // Redirect to the home page after a short delay
+      }, 1500);
     } catch (error) {
-      setServerMessage("An error occurred. Please try again.", error);
+      setServerMessage("An error occurred. Please try again.",error);
     } finally {
       setLoading(false);
     }

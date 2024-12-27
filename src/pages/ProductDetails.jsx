@@ -28,11 +28,11 @@ const ProductDetails = () => {
     fetchProductDetails();
   }, [id]);
 
-  // Handle Add to Cart
-  const handleAddToCart = () => {
-    // Logic for adding the product to the cart (e.g., updating Redux state or localStorage)
-    console.log(`Added ${product.name} to cart`);
-    navigate("/cart"); // Navigate to cart page (if it exists)
+  // Handle Add to Wishlist
+  const handleAddToWishlist = () => {
+    // Logic for adding the product to the Wishlist (e.g., updating Redux state or localStorage)
+    console.log(`Added ${product.name} to Wishlist`);
+    navigate("/Wishlist"); // Navigate to Wishlist page (if it exists)
   };
 
   // Loading state
@@ -90,13 +90,13 @@ const ProductDetails = () => {
               Seller Name: {product.sellerName}
             </p>
 
-            {/* Add to Cart & Shop Now Buttons */}
+            {/* Add to Wishlist & Shop Now Buttons */}
             <div className="flex gap-4">
               <button
-                onClick={handleAddToCart}
+                onClick={handleAddToWishlist}
                 className="bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600"
               >
-                Add to Cart
+                Add to Wishlist
               </button>
               
             </div>

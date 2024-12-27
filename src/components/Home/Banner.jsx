@@ -1,7 +1,12 @@
+import { Link } from "react-router-dom";
 import Carousel from "./Carousel";
+import { useContext } from "react";
+import { AuthContext } from "../Provider/AuthCotext";
 
 
 const Banner = () => {
+    const {  user } = useContext(AuthContext);
+    console.log(user)
     return (
         <div
             className="hero min-h-[700px] pt-8"
@@ -15,9 +20,9 @@ const Banner = () => {
                     <p className="mb-5 text-6xl font-bold">
                        COSMETICS
                     </p>
-                    <button className="border-2 border-gray-200 ml-2 px-2 py-3
+                    <Link to="/products" className="border-2 border-gray-200 ml-2 px-2 py-3
              lg:mt-2 md:mt-0 mt-3 text-lg font-semibold bg-pink-400
-              hover:bg-pink-500 text-black hover:text-white rounded-lg">Shop Now</button>
+              hover:bg-pink-500 text-black hover:text-white rounded-lg">Shop Now</Link>
                 </div>
                 <div>
                     <Carousel />

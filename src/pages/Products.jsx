@@ -98,7 +98,7 @@ const Products = () => {
   };
 
   // Determine products to display
-  const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, 8);
+  const displayedProducts = showAll ? filteredProducts : filteredProducts.slice(0, 6);
 
   // Loading state
   if (loading) {
@@ -184,7 +184,7 @@ const Products = () => {
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayedProducts.map((product) => (
             <div
               key={product.id}
@@ -211,10 +211,10 @@ const Products = () => {
                       className={`${
                         user ? "bg-pink-500 hover:bg-pink-600" : "bg-gray-400 cursor-not-allowed"
                       } text-white px-3 py-1 rounded shadow`}
-                      onClick={() => navigate(`/cart`)} // Navigate to cart page (if exists)
-                      disabled={!user} // Disable the button if user is not logged in
+                    
+                      disabled={!user} 
                     >
-                      Shop Now
+                     Add Wishlist
                     </button>
                   </div>
                 </div>
@@ -224,7 +224,7 @@ const Products = () => {
         </div>
 
         {/* View All */}
-        {!showAll && filteredProducts.length > 8 && (
+        {!showAll && filteredProducts.length > 6 && (
           <div className="flex justify-center mt-12 py-12">
             <button
               className="bg-pink-500 text-white px-6 py-2 rounded hover:bg-pink-600"
