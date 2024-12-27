@@ -10,8 +10,11 @@ At RPCarRes Car Rentals, we're committed to delivering the perfect ride, whether
 
 ## Technology Uses
 
-- React-Vite, react-router-dom, react-hook-form, tailwind, DaisyUi, react-icons, react swiper, 
+- React-Vite, react-router-dom, react-hook-form, tailwind, DaisyUi, react-icons, react swiper,
 
+### Buyer Email & Password
+- Email: shreyashree@gmail.com
+- Password: Kala_vuna_3@
 
 ### Backend Git Repository
 -  https://github.com/Ritupriya-Chowdhury/NightQueenGlow-Server

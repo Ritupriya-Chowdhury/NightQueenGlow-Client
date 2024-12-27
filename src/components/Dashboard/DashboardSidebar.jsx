@@ -28,7 +28,7 @@ const DashboardSidebar = () => {
                }
             </div>
         </div>
-        <div className="hidden md:flex md:flex-col md:w-32 lg:w-64  ">
+        <div className="hidden md:flex md:flex-col md:w-32 lg:w-64 min-h-screen ">
         {role === "buyer" ? (
           <BuyerIcons />
         ) : role === "seller" ? (

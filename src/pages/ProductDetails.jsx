@@ -1,7 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { AuthContext } from "../components/Provider/AuthCotext";
 
 const ProductDetails = () => {
+  const { user } = useContext(AuthContext);
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -29,10 +31,40 @@ const ProductDetails = () => {
   }, [id]);
 
   // Handle Add to Wishlist
-  const handleAddToWishlist = () => {
-    // Logic for adding the product to the Wishlist (e.g., updating Redux state or localStorage)
-    console.log(`Added ${product.name} to Wishlist`);
-    navigate("/Wishlist"); // Navigate to Wishlist page (if it exists)
+  const handleAddToWishlist = async (productId) => {
+    const token = localStorage.getItem("jwt"); // Retrieve the token from localStorage
+  
+    if (!token) {
+      alert("Please log in to add products to your wishlist.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(
+        `https://night-queen-glow-server.vercel.app/wishlist/${productId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Include the token from localStorage
+          },
+          body: JSON.stringify({ productId }), // Send productId if needed
+        }
+      );
+      console.log(response)
+  
+      if (!response.ok) {
+        throw new Error("Failed to add product to wishlist.");
+      }
+  
+      const data = await response.json();
+      alert("Product added to wishlist successfully!");
+      console.log(data)
+      navigate("/buyer-dashboard/Wishlist");
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+      alert("An error occurred while adding the product to your wishlist.");
+    }
   };
 
   // Loading state
@@ -78,27 +110,25 @@ const ProductDetails = () => {
             <p className="text-lg  text-gray-700 mb-4">
               {product.description}
             </p>
-           
-            
-            
-
-            
             <div className="text-xl font-bold text-pink-500 mb-4">
-              ${product.price}
+              {product.price}
             </div>
             <p className="text-2xl font-semibold text-gray-800 mb-4">
               Seller Name: {product.sellerName}
             </p>
 
             {/* Add to Wishlist & Shop Now Buttons */}
-            <div className="flex gap-4">
-              <button
-                onClick={handleAddToWishlist}
-                className="bg-pink-500 text-white px-6 py-2 rounded-lg hover:bg-pink-600"
+            <div className="flex gap-4 mt-8">
+              {user?.role==="buyer"&&product.quantity>0?<button
+                onClick={()=>handleAddToWishlist(product._id)}
+                className={`${
+                  user ? "bg-pink-500 hover:bg-pink-600" : "bg-gray-400 cursor-not-allowed"
+                } text-white px-3 py-1 rounded shadow`}
+                disabled={!user}
               >
                 Add to Wishlist
-              </button>
-              
+              </button>:<p></p>
+              }
             </div>
           </div>
         </div>

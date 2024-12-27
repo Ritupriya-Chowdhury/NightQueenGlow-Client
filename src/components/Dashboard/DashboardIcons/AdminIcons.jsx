@@ -2,7 +2,8 @@ import { MdOutlineHome } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthCotext";
-import { RiLogoutCircleLine } from "react-icons/ri";
+import { RiLogoutCircleLine, RiProductHuntLine } from "react-icons/ri";
+import { FaRegCircleUser } from "react-icons/fa6";
 
 
 
@@ -29,6 +30,22 @@ const AdminIcons = () => {
                         <div className="flex">
                             <p className="p-1 text-2xl"><MdOutlineHome /></p>
                             <p>Home</p>
+                        </div>
+                    </Link>
+                </li>
+                <li>
+                    <Link to='/products'>
+                        <div className="flex">
+                            <p className="p-1 text-2xl"><RiProductHuntLine /></p>
+                            <p>Products</p>
+                        </div>
+                    </Link>
+                </li>
+                <li>
+                    <Link to='/admin-dashboard'>
+                        <div className="flex">
+                            <p className="p-1 text-2xl"> <FaRegCircleUser /></p>
+                            <p>Profile</p>
                         </div>
                     </Link>
                 </li>

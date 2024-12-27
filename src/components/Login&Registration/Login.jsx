@@ -54,19 +54,19 @@ const Login = () => {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( {email:userEmail} ),
       });
-      console.log(response)
+     
   
       if (!response.ok) {
         throw new Error('Failed to generate JWT token');
       }
-  
+   
       const { token } = await response.json();
       localStorage.setItem('jwt', token); // Store token for future requests
   
       const userData = await getUserData(loggedUser.email, token);
       setUser(userData)
   
-      navigate('/buyer-dashboard');
+      navigate(`/${userData.role}-dashboard`);
     } catch (error) {
       console.error("Google Sign-In Error:", error);
       setError("Google Sign-In failed. Please try again.");
@@ -81,7 +81,7 @@ const Login = () => {
     try {
       const result = await loginUser(email, password);
       const loggedUser = result.user;
-  
+         
       // Generate JWT token
       const response = await fetch('https://night-queen-glow-server.vercel.app/jwt', {
         method: 'POST',
@@ -101,7 +101,7 @@ const Login = () => {
       console.log("My User==>",user)
   
       document.getElementById("my_modal_1")?.close(); // Close modal
-      navigate('/buyer-dashboard');
+      navigate(`/${userData.role}-dashboard`);
     } catch (err) {
       console.error("Login Error:", err);
       setError("Invalid email or password. Please try again.");

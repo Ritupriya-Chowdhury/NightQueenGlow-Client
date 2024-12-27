@@ -2,14 +2,17 @@ import { MdOutlineHome } from "react-icons/md";
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthCotext";
-import { FaRegHeart } from "react-icons/fa6";
-import { RiLogoutCircleLine } from "react-icons/ri";
+import { FaRegCircleUser, FaRegHeart } from "react-icons/fa6";
+import { RiLogoutCircleLine, RiProductHuntLine } from "react-icons/ri";
+import { FiShoppingCart } from "react-icons/fi";
+
 
 
 const BuyerIcons = () => {
 
 
-    const { logOut } = useContext(AuthContext);
+    const { logOut, cartCount} = useContext(AuthContext);
+
     // Handle logout
     const handleLogOut = async () => {
         try {
@@ -33,16 +36,39 @@ const BuyerIcons = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to='/dashboard/wishlist'> <div className="flex">
+                    <Link to='/products'>
+                        <div className="flex">
+                            <p className="p-1 text-2xl"><RiProductHuntLine /></p>
+                            <p>Products</p>
+                        </div>
+                    </Link>
+                </li>
+                <li>
+                    <Link to='/buyer-dashboard'>
+                        <div className="flex">
+                            <p className="p-1 text-2xl"> <FaRegCircleUser /></p>
+                            <p>Profile</p>
+                        </div>
+                    </Link>
+                </li>
+                <li>
+                    <Link to='/buyer-dashboard/wishlist'> <div className="flex">
                         <p className="p-1"><FaRegHeart /></p>
                         <p>Wishlist</p>
                     </div></Link>
                 </li>
                 <li>
+                    <Link to='/buyer-dashboard/cart'>
+                    <p className="  pl-6 ">
+                        <FiShoppingCart />
+                    </p>
+                    <p className="text-red-600 ml-1">{cartCount}</p></Link>
+                </li>
+                <li>
                     <button onClick={handleLogOut}>
                         <div className="flex">
                             <p className="py-1 ">
-                            <RiLogoutCircleLine />
+                                <RiLogoutCircleLine />
                             </p>
                             <p>Logout</p>
                         </div>

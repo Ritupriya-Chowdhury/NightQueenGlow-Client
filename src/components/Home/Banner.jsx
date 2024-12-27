@@ -1,12 +1,10 @@
 import { Link } from "react-router-dom";
 import Carousel from "./Carousel";
-import { useContext } from "react";
-import { AuthContext } from "../Provider/AuthCotext";
+
 
 
 const Banner = () => {
-    const {  user } = useContext(AuthContext);
-    console.log(user)
+  
     return (
         <div
             className="hero min-h-[700px] pt-8"

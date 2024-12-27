@@ -19,6 +19,44 @@ const Products = () => {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
 
+
+  const handleAddToWishlist = async (productId) => {
+    const token = localStorage.getItem("jwt"); // Retrieve the token from localStorage
+  
+    if (!token) {
+      alert("Please log in to add products to your wishlist.");
+      return;
+    }
+  
+    try {
+      const response = await fetch(
+        `https://night-queen-glow-server.vercel.app/wishlist/${productId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Include the token from localStorage
+          },
+          body: JSON.stringify({ productId }), // Send productId if needed
+        }
+      );
+      console.log(response)
+  
+      if (!response.ok) {
+        throw new Error("Failed to add product to wishlist.");
+      }
+  
+      const data = await response.json();
+      alert("Product added to wishlist successfully!");
+      console.log(data)
+      navigate("/buyer-dashboard/Wishlist");
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+      alert("An error occurred while adding the product to your wishlist.");
+    }
+  };
+  
+
   // Fetch products from the API
   useEffect(() => {
     const fetchProducts = async () => {
@@ -140,7 +178,8 @@ const Products = () => {
     <div className="min-h-screen bg-pink-200 pt-32">
       <div className="container mx-auto p-6">
         {/* Filters */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mb-6">
+        <div className="flex flex-col md:flex-row items-center 
+        justify-between gap-4 mb-6">
           {/* Search */}
           <input
             type="text"
@@ -176,7 +215,8 @@ const Products = () => {
 
           {/* Clear Filters */}
           <button
-            className="bg-pink-500 text-white px-3 py-2 rounded hover:bg-pink-600"
+            className="bg-gray-500 text-white px-3 py-2 
+            rounded hover:bg-gray-600"
             onClick={handleClearFilters}
           >
             Clear Filters
@@ -197,25 +237,27 @@ const Products = () => {
               />
               <div className="p-4">
                 <h2 className="text-lg font-semibold text-gray-800">{product.name}</h2>
+                <div className="flex items-center justify-between mt-3">
                 <p className="text-sm text-gray-600 truncate">{product.category}</p>
+                <p className="text-sm text-gray-600 truncate">{product.quantity}</p>
+                </div>
                 <div className="flex items-center justify-between mt-3">
                   <span className="text-lg font-bold text-pink-500">${product.price}</span>
                   <div className="flex gap-2">
                     <Link to={`/products/${product._id}`}
                       className="bg-pink-400 text-white px-3 py-1 rounded shadow hover:bg-pink-500"
-                      
                     >
                       View Details
                     </Link>
-                    <button
+                    {user?.role==="buyer"&&product.quantity>0?<button
                       className={`${
-                        user ? "bg-pink-500 hover:bg-pink-600" : "bg-gray-400 cursor-not-allowed"
-                      } text-white px-3 py-1 rounded shadow`}
-                    
-                      disabled={!user} 
+                        user ? "bg-pink-500 hover:bg-pink-600" : "bg-gray-500"
+                      } text-white px-3 py-2 rounded`}
+                      onClick={() => handleAddToWishlist(product._id)}
+                      disabled={!user}
                     >
-                     Add Wishlist
-                    </button>
+                      Add to Wishlist
+                    </button>:null}
                   </div>
                 </div>
               </div>
@@ -223,14 +265,14 @@ const Products = () => {
           ))}
         </div>
 
-        {/* View All */}
+        {/* Show more button */}
         {!showAll && filteredProducts.length > 6 && (
-          <div className="flex justify-center mt-12 py-12">
+          <div className="flex justify-center mt-6">
             <button
-              className="bg-pink-500 text-white px-6 py-2 rounded hover:bg-pink-600"
+              className="bg-pink-500 text-white px-4 py-2 rounded hover:bg-pink-600"
               onClick={() => setShowAll(true)}
             >
-              View All
+              Show All
             </button>
           </div>
         )}
