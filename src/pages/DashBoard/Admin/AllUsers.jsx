@@ -53,11 +53,12 @@ const AllUsers = () => {
         {
           method: "PATCH",
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", 
+            Authorization: `Bearer ${token}`, 
           },
-          body:{
-            role: 'admin'
-          }
+          body: JSON.stringify({
+            role: "admin", 
+          }),
         }
       );
       console.log(response);
@@ -93,11 +94,12 @@ const AllUsers = () => {
         {
           method: "PATCH",
           headers: {
-            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json", 
+            Authorization: `Bearer ${token}`, 
           },
-          body:{
-            role: 'seller'
-          }
+          body: JSON.stringify({
+            role: "seller", 
+          }),
         }
       );
       console.log(response);

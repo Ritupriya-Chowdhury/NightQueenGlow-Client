@@ -16,6 +16,9 @@ import Products from "../pages/Products";
 import Wishlist from "../pages/DashBoard/Buyer/Wishlist";
 import Carts from "../pages/DashBoard/Buyer/Carts";
 import AllUsers from "../pages/DashBoard/Admin/AllUsers";
+import MyProducts from "../pages/DashBoard/Seller/MyProducts";
+import AddProduct from "../pages/DashBoard/Seller/AddProduct";
+import UpdateProduct from "../pages/DashBoard/Seller/UpdateProduct";
 
 
 
@@ -96,6 +99,18 @@ const router = createBrowserRouter([
             {
               path: "",
               element: <Profile />,
+            },
+            {
+              path: "my-products",
+              element: <MyProducts/>,
+            },
+            {
+              path: "update-product/:id",
+              element: <UpdateProduct/>,
+            },
+            {
+              path: "add-product",
+              element: <AddProduct/>,
             },
           ]
         },
