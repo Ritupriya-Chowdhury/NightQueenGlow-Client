@@ -15,6 +15,7 @@ import Profile from "../pages/DashBoard/Buyer/Profile";
 import Products from "../pages/Products";
 import Wishlist from "../pages/DashBoard/Buyer/Wishlist";
 import Carts from "../pages/DashBoard/Buyer/Carts";
+import AllUsers from "../pages/DashBoard/Admin/AllUsers";
 
 
 
@@ -115,6 +116,10 @@ const router = createBrowserRouter([
             {
               path: "",
               element: <Profile />,
+            },
+            {
+              path: "all-users",
+              element:<AllUsers/>,
             },
           ]
         },

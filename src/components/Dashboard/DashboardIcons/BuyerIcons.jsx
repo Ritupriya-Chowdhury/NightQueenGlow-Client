@@ -25,7 +25,7 @@ const BuyerIcons = () => {
     return (
         <div>
             <ul className="menu bg-gray-100 text-pink-500 min-h-screen w-80 md:w-48
-             lg:w-80 p-4 pt-20 text-2xl font-semibold space-y-2">
+             lg:w-64 p-4 pt-20 text-2xl font-semibold space-y-2">
 
                 <li>
                     <Link to='/'>

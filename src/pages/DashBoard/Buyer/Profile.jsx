@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom';
 import ProfileDetails from '../../../components/Dashboard/BuyerDashboard/ProfileDetails';
+import { useContext } from 'react';
+import { AuthContext } from '../../../components/Provider/AuthCotext';
 
 const Profile = () => {
+    const { user } = useContext(AuthContext);
     return (
         <div className='bg-pink-100 min-h-screen w-screen md:ml-[90px] lg:ml-0'>
             <div className="lg:ml-[80px] md:ml-[70px] mx-4 ">
@@ -9,9 +12,17 @@ const Profile = () => {
                 Your Profile!!!
             </p>
             <ProfileDetails/>
-            <p className="my-12 border-2 border-pink-500 bg-pink-200 hover:bg-pink-600 hover:text-white text-xl font-semibold p-4 rounded-lg w-48 text-center">
+            {user.role==='buyer'?<p className="my-12 border-2 border-pink-500 bg-pink-200 hover:bg-pink-600 hover:text-white text-xl font-semibold p-4 rounded-lg w-48 text-center">
                 <Link to='/buyer-dashboard/wishlist'>See wishlist</Link>
-            </p>
+            </p>:
+            user.role==='seller'?<p className="my-12 border-2 border-pink-500
+             bg-pink-200 hover:bg-pink-600 hover:text-white text-xl font-semibold p-4 rounded-lg w-48 text-center">
+            <Link to='/seller-dashboard/my-products'>My Products</Link>
+        </p>:
+        <p className="my-12 border-2 border-pink-500 bg-pink-200
+         hover:bg-pink-600 hover:text-white text-xl font-semibold
+          p-4 rounded-lg w-48 text-center">
+            <Link to='/admin-dashboard/all-users'>All Users</Link></p>}
             </div>
         </div>
     );

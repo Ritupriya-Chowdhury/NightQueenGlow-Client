@@ -11,8 +11,12 @@ const ProfileDetails = () => {
             <img src={user.photoURL} alt="" className="mx-auto mb-8" />
             <p className="my-2">Name:{user.name} </p>
             <p >email:{user.email} </p>
-            <p className="mt-2">role: {user.role} </p>
-            
+            {user.role === 'buyer' ? 
+            <p className="mt-2">role: Buyer</p> : 
+            user.role === 'seller' ? 
+            <p className="mt-2">role: Seller</p>:
+            <p className="mt-2">role: Admin</p>}
+
         </div>
     );
 };

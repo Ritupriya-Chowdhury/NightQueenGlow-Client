@@ -42,8 +42,10 @@ const AuthProvider = ({ children }) => {
 
             if (!response.ok) {
                 if (response.status === 404) {
+                    
                     throw new Error('User not found');
-                } else {
+                }
+                else {
                     throw new Error('Failed to fetch user');
                 }
             }
@@ -170,6 +172,10 @@ const AuthProvider = ({ children }) => {
         }
     };
 
+    
+
+
+
     // Log Out Functionality
     const logOut = async () => {
         try {
@@ -237,8 +243,14 @@ const AuthProvider = ({ children }) => {
                 });
                
 
-                if (!response.ok) {
+                if (response.status===401) {
+                    setUser(null)
+                    signOut(auth);
+
+                }
+                else if(response.status === 404){
                     throw new Error('Failed to fetch cart data');
+                    
                 }
 
                 const data = await response.json();
@@ -248,7 +260,7 @@ const AuthProvider = ({ children }) => {
                 setCartCount(cont); // Update cart count based on the data
             } catch (error) {
                 console.error(error);
-                alert('Error fetching cart data');
+                
             }
         };
 

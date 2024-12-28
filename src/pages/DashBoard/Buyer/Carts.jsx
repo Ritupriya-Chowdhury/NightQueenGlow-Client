@@ -5,14 +5,14 @@ const Carts = () => {
   const { cartItems, cartCount } = useContext(AuthContext); // Access cart data and count from context
 
   return (
-    <div className="py-12 bg-pink-100 w-full">
-      <h1 className="text-pink-500 text-2xl md:text-3xl font-bold my-12 ml-32 md:ml-[250px] lg:ml-[400px]">
+    <div className="py-4 md:py-12 overflow-y-auto bg-pink-100 min-h-screen w-full md:ml-[80px] lg:ml-0">
+      <h1 className="text-pink-500 text-2xl md:text-3xl font-bold  my-8 md:my-12  ml-12 md:ml-[250px] lg:ml-[200px]">
         Your Cart ({cartCount} Items)
       </h1>
 
       {cartItems.length > 0 ? (
         <div className="overflow-x-auto">
-          <table className="w-[800px] border-collapse border border-gray-300 md:ml-20">
+          <table className="w-[800px]  border-collapse border border-gray-300 mx-8 md:mx-20 px-8">
             <thead>
               <tr className="bg-gray-200">
                 <th className="border border-gray-300 px-4 py-2">Image</th>

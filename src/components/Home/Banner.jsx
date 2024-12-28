@@ -18,9 +18,11 @@ const Banner = () => {
                     <p className="mb-5 text-6xl font-bold">
                        COSMETICS
                     </p>
-                    <Link to="/products" className="border-2 border-gray-200 ml-2 px-2 py-3
-             lg:mt-2 md:mt-0 mt-3 text-lg font-semibold bg-pink-400
-              hover:bg-pink-500 text-black hover:text-white rounded-lg">Shop Now</Link>
+                    <p className="border-2 border-gray-200 ml-2 px-2 py-3 w-28 text-center
+             lg:mt-6 md:mt-2 mt-3 text-lg font-semibold bg-pink-400
+              hover:bg-pink-500 text-black hover:text-white rounded-lg ">
+                    <Link to="/products" >Shop Now</Link>
+                    </p>
                 </div>
                 <div>
                     <Carousel />

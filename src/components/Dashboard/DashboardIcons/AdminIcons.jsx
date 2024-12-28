@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../Provider/AuthCotext";
 import { RiLogoutCircleLine, RiProductHuntLine } from "react-icons/ri";
 import { FaRegCircleUser } from "react-icons/fa6";
+import { FiUsers } from "react-icons/fi";
 
 
 
@@ -23,7 +24,7 @@ const AdminIcons = () => {
     return (
         <div>
             <ul className="menu bg-gray-100 text-pink-500 min-h-screen w-80 md:w-48
-             lg:w-80 p-4 pt-20 text-2xl font-semibold space-y-2">
+             lg:w-64 p-4 pt-20 text-2xl font-semibold space-y-2">
 
                 <li>
                     <Link to='/'>
@@ -46,6 +47,14 @@ const AdminIcons = () => {
                         <div className="flex">
                             <p className="p-1 text-2xl"> <FaRegCircleUser /></p>
                             <p>Profile</p>
+                        </div>
+                    </Link>
+                </li>
+                <li>
+                    <Link to='/admin-dashboard/all-users'>
+                        <div className="flex">
+                            <p className="p-1 text-2xl"><FiUsers /></p>
+                            <p>All User</p>
                         </div>
                     </Link>
                 </li>
