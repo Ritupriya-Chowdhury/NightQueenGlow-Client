@@ -12,6 +12,7 @@ const ProductsPage = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      
       try {
         setLoading(true);
         if ( !token) {

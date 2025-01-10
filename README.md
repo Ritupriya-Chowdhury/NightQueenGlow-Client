@@ -37,7 +37,7 @@ At NightQueenGlow, we believe that every moment is an opportunity to shine. Whet
 -  https://github.com/Ritupriya-Chowdhury/NightQueenGlow-Client
 
 ### Backend Api
--  https://car-rental-sooty-theta.vercel.app
+-  https://night-queen-glow-server.vercel.app
 
 ### LiveHost Link
--  https://shiny-khapse-286095.netlify.app/
+-  https://night-queen-glow.vercel.app/

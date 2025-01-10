@@ -42,7 +42,7 @@ const AuthProvider = ({ children }) => {
 
             if (!response.ok) {
                 if (response.status === 404) {
-                    
+
                     throw new Error('User not found');
                 }
                 else {
@@ -102,7 +102,19 @@ const AuthProvider = ({ children }) => {
         try {
             const result = await signInWithPopup(auth, googleProvider);
             const loggedUser = result.user;
+            const userEmail = loggedUser.email;
 
+            // Send the user's email to generate a JWT
+            const response = await fetch('https://night-queen-glow-server.vercel.app/jwt', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userEmail }),
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Failed to generate JWT token');
+            }
 
 
 
@@ -120,6 +132,11 @@ const AuthProvider = ({ children }) => {
                     wishlist: [],
                 }),
             });
+            const { token } = await response.json();
+            localStorage.setItem('jwt', token); // Store token for future requests
+
+            const userData = await getUserData(loggedUser.email, token);
+            setUser(userData)
 
             return result;
         } catch (error) {
@@ -150,6 +167,44 @@ const AuthProvider = ({ children }) => {
                 }),
             });
 
+            const loggedUser = result.user;
+            const userEmail = loggedUser.email;
+
+            // Send the user's email to generate a JWT
+            const response = await fetch('https://night-queen-glow-server.vercel.app/jwt', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userEmail }),
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Failed to generate JWT token');
+            }
+
+
+
+            // Save user to the database
+            await fetch("https://night-queen-glow-server.vercel.app/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name: loggedUser.displayName,
+                    email: loggedUser.email,
+                    photoURL: loggedUser.photoURL,
+
+                    wishlist: [],
+                }),
+            });
+            const { token } = await response.json();
+            localStorage.setItem('jwt', token); // Store token for future requests
+
+            const userData = await getUserData(loggedUser.email, token);
+            setUser(userData)
+
+
             console.log("User created successfully:", newUser);
             return result;
         } catch (error) {
@@ -162,9 +217,29 @@ const AuthProvider = ({ children }) => {
     const loginUser = async (email, password) => {
         try {
             const result = await signInWithEmailAndPassword(auth, email, password);
-            const loggedUser = result.user;
 
-            console.log("User logged in successfully:", loggedUser);
+
+            const loggedUser = result.user;
+            const userEmail = loggedUser.email;
+
+            // Send the user's email to generate a JWT
+            const response = await fetch('https://night-queen-glow-server.vercel.app/jwt', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: userEmail }),
+            });
+
+
+            if (!response.ok) {
+                throw new Error('Failed to generate JWT token');
+            }
+            const { token } = await response.json();
+            localStorage.setItem('jwt', token); // Store token for future requests
+
+            const userData = await getUserData(loggedUser.email, token);
+            setUser(userData)
+            console.log("My User==>", user)
+
             return result;
         } catch (error) {
             console.error("Login Error:", error);
@@ -172,7 +247,7 @@ const AuthProvider = ({ children }) => {
         }
     };
 
-    
+
 
 
 
@@ -182,7 +257,10 @@ const AuthProvider = ({ children }) => {
 
             await signOut(auth);
             localStorage.removeItem('jwt');
+            setCartItems([])
+            setCartCount(0)
             setUser(null)
+           
             // Clear user state
             console.log("User logged out successfully.");
         } catch (error) {
@@ -241,26 +319,26 @@ const AuthProvider = ({ children }) => {
                         Authorization: `Bearer ${token}`,
                     },
                 });
-               
 
-                if (response.status===401) {
+
+                if (response.status === 401) {
                     setUser(null)
                     signOut(auth);
 
                 }
-                else if(response.status === 404){
+                else if (response.status === 404) {
                     throw new Error('Failed to fetch cart data');
-                    
+
                 }
 
                 const data = await response.json();
                 console.log(data)
                 setCartItems(data.products);
-                const cont=data.products.length // Update cart items state
+                const cont = data.products.length // Update cart items state
                 setCartCount(cont); // Update cart count based on the data
             } catch (error) {
                 console.error(error);
-                
+
             }
         };
 

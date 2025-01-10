@@ -7,7 +7,7 @@ const Banner = () => {
   
     return (
         <div
-            className="hero min-h-[700px] pt-8"
+            className="hero min-h-screen pt-8"
             style={{
                 backgroundImage: "url(https://media.istockphoto.com/id/1658893205/photo/make-up-products-at-pink-background-top-view.webp?a=1&b=1&s=612x612&w=0&k=20&c=WyC7dAydetNfqZsBhSTJebeKe9WZFEgMvjVTKFIix1M=)",
             }}>

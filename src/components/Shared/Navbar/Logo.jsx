@@ -2,7 +2,7 @@ import { GiFlowerEmblem } from "react-icons/gi";
 
 const Logo = () => {
     return (
-        <div className="flex  font-bold text-pink-500 md:text-2xl text-lg">
+        <div className="flex  font-bold text-pink-500 md:text-2xl text-xl my-3">
             <p className=" p-1"> <GiFlowerEmblem /></p>
             <p className="">NightQueenGlow</p>
         </div>

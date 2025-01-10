@@ -35,7 +35,7 @@ const Wishlist = () => {
       alert(`${product.name} added to cart!`);
     } catch (error) {
       console.error(error);
-      alert('Failed to add product to cart');
+      alert(`${error}`);
     }
   };
 
@@ -91,6 +91,7 @@ const Wishlist = () => {
                 <th className="border border-gray-300 px-4 py-2">Image</th>
                 <th className="border border-gray-300 px-4 py-2">Name</th>
                 <th className="border border-gray-300 px-4 py-2">Price</th>
+                <th className="border border-gray-300 px-4 py-2">Quantity</th>
                 <th className="border border-gray-300 px-4 py-2">Add to Cart</th>
                 <th className="border border-gray-300 px-4 py-2">Delete</th>
               </tr>
@@ -108,6 +109,9 @@ const Wishlist = () => {
                   <td className="border border-gray-300 px-4 py-2">{product.name}</td>
                   <td className="border border-gray-300 px-4 py-2">
                     {product.price}
+                  </td>
+                  <td className="border border-gray-300 px-4 py-2">
+                    {product.quantity}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     <button

@@ -1,14 +1,14 @@
 import { FaBars } from "react-icons/fa";
-import { MdOutlineContactPhone, MdOutlineDashboard, MdOutlineHome } from "react-icons/md";
+import { MdOutlineContactPhone, MdOutlineHome } from "react-icons/md";
 import { PiFlower } from "react-icons/pi";
 import { RiProductHuntLine } from "react-icons/ri";
 import { Link } from "react-router-dom";
-import { useRole } from "../../hooks/userROle";
+
 
 
 
 const Sidebar = () => {
-    const role = useRole();
+   
   
     return (
         <div className="drawer">
@@ -17,10 +17,12 @@ const Sidebar = () => {
             ">
 
                 <label htmlFor="my-drawer" className=" drawer-button ">
-                    <div className="border-2 hover:border-pink-400 p-2 rounded-lg hover:text-white hover:bg-pink-400" >
+                    <div className="border-2 hover:border-pink-400 py-[10px] px-2 rounded-lg 
+                h-[48px] 
+                hover:text-white hover:bg-pink-400 " >
                 <FaBars /></div> </label>
             </div>
-            <div className="drawer-side  mt-[74px] ">
+            <div className="drawer-side  mt-[80px] ">
                 <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
                 <ul className="menu bg-base-100 text-pink-500 min-h-screen w-80 p-4 text-xl font-semibold space-y-2">
 
@@ -50,23 +52,7 @@ const Sidebar = () => {
                             <p>Contact</p>
                         </div></Link>
                     </li>
-                    {role==='buyer'?<li>
-                        <Link to='/buyer-dashboard'> <div className="flex">
-                            <p className="p-1"><MdOutlineDashboard /></p>
-                            <p>Dashboard</p>
-                        </div></Link>
-                    </li>:
-                    role==='seller'?<li>
-                        <Link to='/seller-dashboard'> <div className="flex">
-                            <p className="p-1"><MdOutlineDashboard /></p>
-                            <p>Dashboard</p>
-                        </div></Link>
-                    </li>:role==='admin'?<li>
-                        <Link to='/admin-dashboard'> <div className="flex">
-                            <p className="p-1"><MdOutlineDashboard /></p>
-                            <p>Dashboard</p>
-                        </div></Link>
-                    </li>:<p></p>}
+                  
                 </ul>
             </div>
         </div>

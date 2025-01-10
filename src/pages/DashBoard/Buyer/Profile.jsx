@@ -12,14 +12,15 @@ const Profile = () => {
                 Your Profile!!!
             </p>
             <ProfileDetails/>
-            {user.role==='buyer'?<p className="my-12 border-2 border-pink-500 bg-pink-200 hover:bg-pink-600 hover:text-white text-xl font-semibold p-4 rounded-lg w-48 text-center">
+            {user.role==='buyer'?<p className="mt-12 mb-20 border-2 border-pink-500
+             bg-pink-200 hover:bg-pink-600 hover:text-white text-xl font-semibold p-4 rounded-lg w-48 text-center">
                 <Link to='/buyer-dashboard/wishlist'>See wishlist</Link>
             </p>:
-            user.role==='seller'?<p className="my-12 border-2 border-pink-500
+            user.role==='seller'?<p className="mt-12 mb-20 border-2 border-pink-500
              bg-pink-200 hover:bg-pink-600 hover:text-white text-xl font-semibold p-4 rounded-lg w-48 text-center">
             <Link to='/seller-dashboard/my-products'>My Products</Link>
         </p>:
-        <p className="my-12 border-2 border-pink-500 bg-pink-200
+        <p className="mt-12 mb-20 border-2 border-pink-500 bg-pink-200
          hover:bg-pink-600 hover:text-white text-xl font-semibold
           p-4 rounded-lg w-48 text-center">
             <Link to='/admin-dashboard/all-users'>All Users</Link></p>}

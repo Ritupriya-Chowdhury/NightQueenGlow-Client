@@ -1,72 +1,24 @@
 import { HiOutlineXMark } from "react-icons/hi2";
 import { AuthContext } from "../Provider/AuthCotext";
 import { useState, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 
 
 const Login = () => {
-  const { GoogleSignIn, loginUser, setUser, user } = useContext(AuthContext);
+  const { GoogleSignIn, loginUser} = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
-  const navigate = useNavigate(); // Hook for navigation
 
-
-
-  async function getUserData(email, token) {
-    try {
-      const response = await fetch(`https://night-queen-glow-server.vercel.app/users/email/${email}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`, // Include the JWT token for authentication
-          'Content-Type': 'application/json',
-        },
-      });
-  
-      if (!response.ok) {
-        if (response.status === 404) {
-          throw new Error('User not found');
-        } else {
-          throw new Error('Failed to fetch user');
-        }
-      }
-  
-      const user = await response.json();
-      
-      return user;
-    } catch (error) {
-      console.error('Error:', error.message);
-    }
-  }
 
   // Handle Google Sign-In
   const handleGoogleSignIn = async () => {
     try {
       const result = await GoogleSignIn();
-      const loggedUser = result.user;
-    
-      const userEmail=loggedUser.email;
-  
-      // Send the user's email to generate a JWT
-      const response = await fetch('https://night-queen-glow-server.vercel.app/jwt', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( {email:userEmail} ),
-      });
-     
-  
-      if (!response.ok) {
-        throw new Error('Failed to generate JWT token');
-      }
-   
-      const { token } = await response.json();
-      localStorage.setItem('jwt', token); // Store token for future requests
-  
-      const userData = await getUserData(loggedUser.email, token);
-      setUser(userData)
-  
-      navigate(`/${userData.role}-dashboard`);
+     console.log(result)
+     document.getElementById("my_modal_1")?.close(); 
+ 
     } catch (error) {
       console.error("Google Sign-In Error:", error);
       setError("Google Sign-In failed. Please try again.");
@@ -93,15 +45,10 @@ const Login = () => {
         throw new Error('Failed to generate JWT token');
       }
   
-      const { token } = await response.json();
-      localStorage.setItem('jwt', token); // Store token for future requests
-  
-      const userData = await getUserData(loggedUser.email, token);
-      setUser(userData)
-      console.log("My User==>",user)
-  
+      setEmail("");
+      setPassword("");
       document.getElementById("my_modal_1")?.close(); // Close modal
-      navigate(`/${userData.role}-dashboard`);
+      
     } catch (err) {
       console.error("Login Error:", err);
       setError("Invalid email or password. Please try again.");
@@ -125,7 +72,7 @@ const Login = () => {
               <div>
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
+                  className="block text-sm  font-medium text-gray-700"
                 >
                   Email Address
                 </label>
@@ -134,7 +81,7 @@ const Login = () => {
                   id="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                  className="mt-1 block w-full border-2 border-gray-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                   required
                 />
               </div>
@@ -152,7 +99,7 @@ const Login = () => {
                     id="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+                    className="mt-1 block w-full border-2 border-gray-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
                     required
                   />
                   <button

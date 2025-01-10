@@ -5,8 +5,10 @@ import Login from "./Login";
 import { RiLogoutCircleLine } from "react-icons/ri";
 
 
+
 const LoginModal = () => {
-  const { user, logOut } = useContext(AuthContext); // Get `logOut` from context
+  const { user, logOut } = useContext(AuthContext); 
+ 
 
   // Handle logout
   const handleLogOut = async () => {
@@ -19,16 +21,18 @@ const LoginModal = () => {
   };
 
   return (
-    <div>
+    <div className="">
       {user ? (
-        <button onClick={handleLogOut}>
+           
+         <button onClick={handleLogOut} className="drawer-button">
           <div className="flex">
             <p className="py-1 text-xl pr-1">
-            <RiLogoutCircleLine />
+              <RiLogoutCircleLine />
             </p>
             <p>Logout</p>
           </div>
         </button>
+         
       ) : (
         <button
           onClick={() => document.getElementById("my_modal_1").showModal()}

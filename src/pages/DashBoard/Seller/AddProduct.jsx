@@ -18,6 +18,7 @@ const AddProduct = () => {
     } = useForm();
 
     const onSubmit = async (formData) => {
+        formData.quantity = Number(formData.quantity);
         try {
             setLoading(true);
             // Prepare the form data to be sent
