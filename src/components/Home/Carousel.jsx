@@ -28,7 +28,7 @@ const Carousel = () => {
             <img
               src={slide}
               alt={`Slide ${index + 1}`}
-              className="w-[500px] md:w-[1000px] h-[250px] md:h-[400px] md:mt-8 object-cover"
+              className="w-[350px] md:w-[800px] h-[250px] md:h-[350px] mt-5 md:mt-8 object-cover"
             />
           </SwiperSlide>
         ))}

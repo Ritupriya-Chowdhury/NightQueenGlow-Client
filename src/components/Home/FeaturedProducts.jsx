@@ -8,7 +8,7 @@ const FeaturedProducts = () => {
       },
       {
         id: 2,
-        name: "BB Cream",
+        name: "Moisturizing Cream",
         price: "$23",
         image: "https://images.unsplash.com/photo-1661346378886-ff07460ed79f?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDN8fHxlbnwwfHx8fHw%3D",
       },
@@ -52,9 +52,9 @@ const FeaturedProducts = () => {
     ];
   
     return (
-     <div className="py-20 bg-pink-100">
-        <h1 className="text-center font-bold text-4xl">Our Products</h1>
-         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 p-8 py-12  ">
+     <div className="pb-16 bg-pink-100">
+        <h1 className="text-center font-bold text-4xl py-16">Our Products</h1>
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 px-8   ">
         {products.map((product) => (
           <div
             key={product.id}
@@ -64,7 +64,7 @@ const FeaturedProducts = () => {
             <img
               src={product.image}
               alt={product.name}
-              className="w-[300px] h-[400px] mx-auto py-8 "
+              className="w-[320px] h-[400px] mx-auto py-6 px-6  "
             />
             </div>
             <div className="p-4 text-left ">

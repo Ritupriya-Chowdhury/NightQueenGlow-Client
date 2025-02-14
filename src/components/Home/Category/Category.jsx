@@ -51,12 +51,13 @@ const categories = [
     };
   
     return (
-      <section>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-8 py-12 bg-white">
+      <section className="pb-16">
+        <h1 className="text-center font-bold text-4xl py-16">Our Product&apos;s Category</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 px-8  bg-white">
           {categories.map((category) => (
             <div
               key={category.id}
-              className="mx-2 md:mx-8 my-8 cursor-pointer  flex bg-pink-100 p-4 rounded-lg"
+              className="mx-2 md:mx-2  cursor-pointer  flex bg-pink-100 p-4 rounded-lg"
               onClick={() => handleCategoryClick(category.Category)}
             >
               <div>

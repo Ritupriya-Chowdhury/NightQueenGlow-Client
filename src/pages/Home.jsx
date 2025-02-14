@@ -3,6 +3,7 @@ import Category from "../components/Home/Category/Category";
 import ContactSection from "../components/Home/ContactSection";
 import FAQSection from "../components/Home/FAQSection";
 import FeaturedProducts from "../components/Home/FeaturedProducts";
+import Offer from "../components/Home/Offer";
 import Testimonial from "../components/Home/Testomonial";
 
 const Home = () => {
@@ -11,6 +12,7 @@ const Home = () => {
             <Banner/>
             <FeaturedProducts/>
             <Category/>
+            <Offer/>
             <Testimonial/>
             <FAQSection/>
             <ContactSection/>

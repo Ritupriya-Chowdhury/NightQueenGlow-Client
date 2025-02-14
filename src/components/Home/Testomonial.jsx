@@ -40,9 +40,9 @@ const testimonials = [
 
 const Testimonial = () => {
   return (
-    <div className="py-16 bg-pink-50">
+    <div className="pb-16 bg-pink-50">
       <div className="container mx-auto text-center">
-        <h2 className="text-4xl font-bold text-gray-800">
+        <h2 className="text-4xl font-bold text-gray-800  py-16">
           Customer Testimonials
         </h2>
         <Swiper
@@ -70,7 +70,7 @@ const Testimonial = () => {
         >
           {testimonials.map((testimonial, index) => (
             <SwiperSlide key={index}>
-              <div className="mt-12 mb-12 h-[400px]">
+              <div className="mb-12 h-[400px]">
                 <div className="bg-white p-6 shadow-lg rounded-lg h-96">
                   <div className="flex justify-center">
                     <img

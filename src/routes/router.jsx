@@ -19,6 +19,7 @@ import AllUsers from "../pages/DashBoard/Admin/AllUsers";
 import MyProducts from "../pages/DashBoard/Seller/MyProducts";
 import AddProduct from "../pages/DashBoard/Seller/AddProduct";
 import UpdateProduct from "../pages/DashBoard/Seller/UpdateProduct";
+import Login from "../components/Login&Registration/Login";
 
 
 
@@ -143,6 +144,11 @@ const router = createBrowserRouter([
     {
       path:'/signup',
       element:<Registration/>
+    },
+    
+    {
+      path:'/login',
+      element:<Login/>
     },
     {
       path:'/*',

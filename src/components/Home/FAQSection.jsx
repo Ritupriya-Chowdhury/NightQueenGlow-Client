@@ -36,8 +36,8 @@ const FAQSection = () => {
   };
 
   return (
-    <div className="mx-auto px-4 py-16 bg-white">
-      <h2 className="text-4xl font-bold text-center mb-8 ">
+    <div className="mx-auto px-4 pb-16 bg-white">
+      <h2 className="text-4xl py-16 font-bold text-center  ">
         Frequently Asked Questions
       </h2>
       <div className="max-w-4xl mx-auto space-y-6">

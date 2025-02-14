@@ -144,7 +144,7 @@ const AboutUs = () => {
 
                 {/* Contact Information */}
 
-                <section className="py-12 md:px-20 px-8">
+                <section className="py-4 md:px-20 px-8">
                     <h2 className="text-3xl font-semibold">Contact Us</h2>
                     <p className="mt-4 text-gray-700 text-xl font-semibold">
                         If you have any questions or need assistance, feel free to reach out

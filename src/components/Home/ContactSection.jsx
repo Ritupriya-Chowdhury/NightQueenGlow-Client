@@ -1,7 +1,7 @@
 const ContactSection = () => {
   return (
-    <div className="mx-auto px-4 py-16 bg-pink-50">
-      <h2 className="text-4xl font-bold text-center mb-8 ">
+    <div className="mx-auto px-4 pb-16 bg-pink-50">
+      <h2 className="text-4xl font-bold text-center py-16 ">
         Night Queen Glow
       </h2>
       <p className="text-center  mb-8 text-xl">
