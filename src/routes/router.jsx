@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
-import Home from '../pages/Home'
+import Home from "../pages/Home";
 import AboutUs from "../pages/AboutUs";
-import Contact from "../pages/Contact"
+import Contact from "../pages/Contact";
 import Page404 from "../pages/404Page";
 import Registration from "../pages/Registration";
 import ProductDetails from "../pages/ProductDetails";
@@ -20,142 +20,149 @@ import MyProducts from "../pages/DashBoard/Seller/MyProducts";
 import AddProduct from "../pages/DashBoard/Seller/AddProduct";
 import UpdateProduct from "../pages/DashBoard/Seller/UpdateProduct";
 import Login from "../components/Login&Registration/Login";
-
-
-
-
+import Seller from "../components/Dashboard/Seller";
+import Admin from "../components/Dashboard/Admin";
+import Buyer from "../components/Dashboard/Buyer";
 
 const router = createBrowserRouter([
-    {
-      path: '/',
-      element: <App/>,
-      children: [
+  {
+    path: "/",
+    element: <App />,
+    children: [
+      {
+        path: "",
+        element: <Home />,
+      },
+      {
+        path: "products",
+        element: <Products />,
+      },
+      {
+        path: "products/:id",
+        element: <ProductDetails />,
+      },
+      {
+        path: "about",
+        element: <AboutUs />,
+      },
+      {
+        path: "contact",
+        element: <Contact />,
+      },
+    ],
+  },
+  {
+    path: "/buyer-dashboard",
+    element: (
+      <PrivateRoute>
+        <ProtectedRoute allowedRoles={["buyer"]} />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <BuyerDashboard />,
+        children: [
+          {
+            path: "",
+            element: <Buyer />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "wishlist",
+            element: <Wishlist />,
+          },
+          {
+            path: "cart",
+            element: <Carts />,
+          },
+        ],
+      },
+     
+    ],
+  },
+  {
+    path: "/seller-dashboard",
+    element: (
+      <PrivateRoute>
+        <ProtectedRoute allowedRoles={["seller"]} />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <SellerDashboard />,
+        children: [
+          {
+            path: "",
+            element: <Seller />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "my-products",
+            element: <MyProducts />,
+          },
+          {
+            path: "update-product/:id",
+            element: <UpdateProduct />,
+          },
+          {
+            path: "add-product",
+            element: <AddProduct />,
+          },
+        ],
+      },
+     
+    ],
+  },
+  {
+    path: "/admin-dashboard",
+    element: (
+      <PrivateRoute>
+        <ProtectedRoute allowedRoles={["admin"]} />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "",
+        element: <AdminDashboard />,
+        children: [
+          {
+            path: "",
+            element: <Admin />,
+          },
+          {
+            path: "profile",
+            element: <Profile />,
+          },
+          {
+            path: "all-users",
+            element: <AllUsers />,
+          },
+        ],
+      },
+      
+    ],
+  },
+  {
+    path: "/signup",
+    element: <Registration />,
+  },
 
-        {
-          path: '',
-          element: <Home />
-        },
-        {
-          path: 'products',
-          element: <Products />
-        },
-        {
-          path: 'products/:id',
-          element: <ProductDetails />
-        },
-        {
-          path: 'about',
-          element: <AboutUs />
-        },
-        {
-          path: 'contact',
-          element: <Contact/>
-        },
-        
-      ]
-    }, 
-    {
-      path: "/buyer-dashboard",
-      element: (
-        <PrivateRoute>
-          <ProtectedRoute allowedRoles={["buyer"]} />
-        </PrivateRoute>
-      ),
-      children: [
-        {
-          path: "",
-          element: <BuyerDashboard />,
-          children:[
-            {
-              path: "",
-              element: <Profile />,
-            },
-            {
-              path: "wishlist",
-              element: <Wishlist/>,
-            },
-            {
-              path: "cart",
-              element: <Carts/>,
-            },
-
-          ]
-        },
-        
-      ],
-    },
-    {
-      path: "/seller-dashboard",
-      element: (
-        <PrivateRoute>
-          <ProtectedRoute allowedRoles={["seller"]} />
-        </PrivateRoute>
-      ),
-      children: [
-        
-        {
-          path: "",
-          element: <SellerDashboard/>,
-          children:[
-            {
-              path: "",
-              element: <Profile />,
-            },
-            {
-              path: "my-products",
-              element: <MyProducts/>,
-            },
-            {
-              path: "update-product/:id",
-              element: <UpdateProduct/>,
-            },
-            {
-              path: "add-product",
-              element: <AddProduct/>,
-            },
-          ]
-        },
-      ],
-    },
-    {
-      path: "/admin-dashboard",
-      element: (
-        <PrivateRoute>
-          <ProtectedRoute allowedRoles={["admin"]} />
-        </PrivateRoute>
-      ),
-      children: [
-        {
-          path: "",
-          element: <AdminDashboard/>,
-          children:[
-            {
-              path: "",
-              element: <Profile />,
-            },
-            {
-              path: "all-users",
-              element:<AllUsers/>,
-            },
-          ]
-        },
-      ],
-    },
-    {
-      path:'/signup',
-      element:<Registration/>
-    },
-    
-    {
-      path:'/login',
-      element:<Login/>
-    },
-    {
-      path:'/*',
-      element:<Page404/>
-    },
-
-])
-
+  {
+    path: "/login",
+    element: <Login />,
+  },
+  {
+    path: "/*",
+    element: <Page404 />,
+  },
+]);
 
 export default router;

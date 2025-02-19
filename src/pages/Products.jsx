@@ -4,6 +4,8 @@ import Rating from "react-rating";
 import { AuthContext } from "../components/Provider/AuthCotext";
 import ReactPaginate from "react-paginate";
 import { FaRegStar, FaStar } from "react-icons/fa";
+import {  useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const Products = () => {
   const [products, setProducts] = useState([]);
@@ -17,6 +19,7 @@ const Products = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const productsPerPage = 8;
   const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -68,6 +71,58 @@ const Products = () => {
     setCurrentPage(selected);
   };
 
+  const handleAddToWishlist = async (productId) => {
+    const token = localStorage.getItem("jwt"); // Retrieve the token from localStorage
+
+    if (!token) {
+      Swal.fire({
+        icon: "warning",
+        title: "Login Required",
+        text: "Please log in to add products to your wishlist.",
+      });
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        `https://night-queen-glow-server.vercel.app/wishlist/${productId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`, // Include the token from localStorage
+          },
+          body: JSON.stringify({ productId }), // Send productId if needed
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to add product to wishlist.");
+      }
+
+      const data = await response.json();
+
+      Swal.fire({
+        icon: "success",
+        title: "Added to Wishlist!",
+        text: "The product has been successfully added to your wishlist.",
+        confirmButtonColor: "#d33",
+      }).then(() => {
+        navigate("/buyer-dashboard/Wishlist");
+      });
+
+      console.log(data);
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "An error occurred while adding the product to your wishlist.",
+      });
+    }
+  };
+
+
   if (loading) return <div className="text-center">Loading products...</div>;
   if (error) return <div className="text-center text-red-500">Error: {error}</div>;
 
@@ -108,7 +163,7 @@ const Products = () => {
               <div className="p-4">
                 <div className="flex justify-between">
                   <h2 className="text-lg font-semibold">{product.name}</h2>
-                  <p className="text-lg font-bold text-red-600">{product.price}</p>
+                  <p className="text-lg font-bold text-red-600">${product.price.toFixed(2)}</p>
                 </div>
                 <div className="flex items-center mt-2">
           <Rating
@@ -125,7 +180,8 @@ const Products = () => {
                       View Details
                     </Link>
                     {user?.role === "buyer" && product.quantity > 0 && (
-                      <button className="bg-pink-500 text-white px-3 py-2 rounded hover:bg-pink-600">
+                      <button className="bg-pink-500 text-white px-3 py-2 rounded
+                       hover:bg-pink-600" onClick={()=>(handleAddToWishlist(product._id))}>
                         Add to Wishlist
                       </button>
                     )}

@@ -2,9 +2,11 @@ import { AuthContext } from "../Provider/AuthCotext";
 import { useState, useContext } from "react";
 import { FaFacebookF, FaGoogle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { GoogleSignIn, loginUser } = useContext(AuthContext);
+  const { user, GoogleSignIn, loginUser, FacebookSignIn } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -28,6 +30,58 @@ const Login = () => {
     try {
       const result = await GoogleSignIn();
       console.log(result);
+        // Assuming the role is stored in loggedUser.role
+        const userRole = user.role; // Ensure role is returned from AuthContext
+
+        // Success Alert
+        Swal.fire({
+          title: "Login Successful!",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+  
+        // Navigate based on role
+        setTimeout(() => {
+          if (userRole === "admin") {
+            navigate("/admin-dashboard");
+          } else if (userRole === "seller") {
+            navigate("/seller-dashboard");
+          } else {
+            navigate("/buyer-dashboard"); // Default route for buyers or general users
+          }
+        }, 2000);
+    } catch (error) {
+      console.error("Google Sign-In Error:", error);
+      setError("Google Sign-In failed. Please try again.");
+    }
+  };
+  // Handle Google Sign-In
+  const handleFacebookSignIn = async () => {
+    try {
+      const result = await FacebookSignIn();
+      console.log(result)
+           // Assuming the role is stored in loggedUser.role
+           const userRole = user.role; // Ensure role is returned from AuthContext
+
+           // Success Alert
+           Swal.fire({
+             title: "Login Successful!",
+             icon: "success",
+             timer: 2000,
+             showConfirmButton: false,
+           });
+     
+           // Navigate based on role
+           setTimeout(() => {
+             if (userRole === "admin") {
+               navigate("/admin-dashboard");
+             } else if (userRole === "seller") {
+               navigate("/seller-dashboard");
+             } else {
+               navigate("/buyer-dashboard"); // Default route for buyers or general users
+             }
+           }, 2000);
     } catch (error) {
       console.error("Google Sign-In Error:", error);
       setError("Google Sign-In failed. Please try again.");
@@ -35,6 +89,8 @@ const Login = () => {
   };
 
   // Handle form-based login using AuthContext's loginUser function
+  const navigate = useNavigate(); // Initialize navigation
+
   const handleLogin = async (e) => {
     e.preventDefault();
     setError(null);
@@ -43,7 +99,7 @@ const Login = () => {
       const result = await loginUser(email, password);
       const loggedUser = result.user;
 
-      // Generate JWT token
+      // Fetch JWT token
       const response = await fetch(
         "https://night-queen-glow-server.vercel.app/jwt",
         {
@@ -53,10 +109,38 @@ const Login = () => {
         }
       );
 
+     let userRole="";
+        
+      
+
       if (!response.ok) {
         throw new Error("Failed to generate JWT token");
       }
+     else{
+      
+       userRole = user.role;
+     }
+      // Success Alert
+      Swal.fire({
+        title: "Login Successful!",
+        icon: "success",
+        timer: 2000,
+        showConfirmButton: false,
+      });
 
+     
+      // Navigate based on role
+      setTimeout(() => {
+        if (userRole === "admin") {
+          navigate("/admin-dashboard");
+        } else if (userRole === "seller") {
+          navigate("/seller-dashboard");
+        } else {
+          navigate("/buyer-dashboard"); // Default route for buyers or general users
+        }
+      }, 2000);
+
+      // Clear input fields
       setEmail("");
       setPassword("");
     } catch (err) {
@@ -65,9 +149,10 @@ const Login = () => {
     }
   };
 
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
+    <div className="flex items-center justify-center py-16 bg-gray-100">
+      <div className="w-full max-w-md px-6 py-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
         <p className="text-blue-600 mb-4 underline font-bold">Demo Login</p>
 
@@ -146,7 +231,7 @@ const Login = () => {
         <div className="flex justify-center space-x-4">
           <button
             className="mt-4 border border-black p-2 hover:p-3 rounded-md"
-            onClick={handleGoogleSignIn}
+            onClick={handleFacebookSignIn}
           >
             <FaFacebookF />
           </button>

@@ -86,8 +86,8 @@ const ProductsPage = () => {
   if (error) return <p className="text-red-500">{error}</p>;
 
   return (
-    <div className="py-4 md:py-8 overflow-y-auto bg-pink-100 min-h-screen w-full md:ml-[80px] lg:ml-0">
-      <h1 className="text-pink-500 text-2xl md:text-3xl font-bold my-8 md:mb-12 ml-32 md:ml-[200px] lg:ml-[400px]">
+    <div className="py-8 md:py-20 overflow-y-auto bg-pink-100 min-h-screen w-full md:ml-[80px] lg:ml-0">
+      <h1 className="text-pink-500 text-2xl md:text-3xl font-bold my-8 md:my-12 ml-12 md:ml-[250px] lg:ml-[200px]">
         Your Products
       </h1>
       {products.length > 0 ? (
@@ -114,7 +114,7 @@ const ProductsPage = () => {
                   </td>
                   <td className="border border-gray-300 px-4 py-2">{product.name}</td>
                   <td className="border border-gray-300 px-4 py-2">
-                    {product.price}
+                    ${product.price}
                   </td>
                   <td className="border border-gray-300 px-4 py-2 text-center">
                     <button

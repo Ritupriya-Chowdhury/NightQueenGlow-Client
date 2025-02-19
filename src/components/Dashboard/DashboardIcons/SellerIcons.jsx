@@ -44,7 +44,7 @@ const SellerIcons = () => {
                 </li>
                
                 <li>
-                    <Link to='/seller-dashboard'>
+                    <Link to='/seller-dashboard/profile'>
                         <div className="flex">
                             <p className="p-1 text-2xl"> <FaRegCircleUser /></p>
                             <p>Profile</p>

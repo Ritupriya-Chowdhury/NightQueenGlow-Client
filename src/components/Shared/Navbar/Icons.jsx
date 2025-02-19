@@ -66,7 +66,7 @@ const Icons = () => {
               </li> : <p></p>}
               <li>   <button onClick={handleLogOut} className="drawer-button">
           <div className="flex text-lg font-semibold">
-            <p className="py-1  pr-1">
+            <p className="p-1">
               <RiLogoutCircleLine />
             </p>
             <p>Logout</p>
@@ -74,7 +74,9 @@ const Icons = () => {
         </button></li>
           </ul>
         </div>
-      </div>:<div></div>}
+      </div>:<div className="text-lg font-semibold mt-2">
+              <LoginModal />
+            </div>}
       {user?.role === 'buyer' ? <div role="button" className=" border-2 hover:border-pink-400 px-2 py-1
        h-[50px] w-12
       rounded-lg hover:text-white hover:bg-pink-400 hidden md:block">
@@ -85,9 +87,7 @@ const Icons = () => {
         text-red-500  text-sm ">{cartCount}</p>
           </div>
         </Link>
-      </div> : <div className="text-lg font-semibold mt-2">
-              <LoginModal />
-            </div>}
+      </div> : <div></div>}
 
     </div>
   );

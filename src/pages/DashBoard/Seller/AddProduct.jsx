@@ -19,6 +19,7 @@ const AddProduct = () => {
 
     const onSubmit = async (formData) => {
         formData.quantity = Number(formData.quantity);
+        formData.price = formData.price.toFixed(2);
         try {
             setLoading(true);
             // Prepare the form data to be sent
@@ -59,7 +60,7 @@ const AddProduct = () => {
     if (error) return <p className="text-red-500">{error}</p>;
 
     return (
-        <div className="min-h-screen bg-pink-50 flex items-center justify-center py-12 px-6">
+        <div className="min-h-screen w-screen bg-pink-100 flex items-center justify-center py-20 px-6">
             <div className="bg-white p-6 rounded shadow-md lg:w-[800px] lg:mx-20">
                 <h1 className="text-2xl font-bold text-pink-500 mb-4 text-center">
                     Add New Product
@@ -119,7 +120,7 @@ const AddProduct = () => {
                         <div>
                             <label className="block text-sm font-medium text-gray-700">Price</label>
                             <input
-                                type="text"
+                                type="number"
                                 {...register("price", { required: "Price is required" })}
                                 className="w-full px-4 py-2 border rounded focus:outline-none focus:ring focus:ring-pink-300"
                             />

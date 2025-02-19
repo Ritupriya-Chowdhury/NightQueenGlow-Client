@@ -171,7 +171,7 @@ const AllUsers = () => {
       ) : users.length > 0 ? (
         <div className="overflow-x-auto">
          
-          <table className="w-[1000px] border-collapse border border-gray-300 mx-8 md:mx-20">
+          <table className="w-[1000px] border-collapse border border-gray-300 mx-8 md:mx-12 my-8">
             <thead>
               <tr className="bg-gray-200">
                 <th className="border border-gray-300 px-4 py-2">Name</th>

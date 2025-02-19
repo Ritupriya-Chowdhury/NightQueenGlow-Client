@@ -9,7 +9,7 @@ At NightQueenGlow, we believe that every moment is an opportunity to shine. Whet
 
 ## Technology Uses
 
-- React-Vite, react-router-dom, react-hook-form, tailwind, DaisyUi, react-icons, react swiper,react-paginate, react-rating
+- React-Vite, react-router-dom, react-hook-form, tailwind, DaisyUi, react-icons, react swiper,react-paginate, react-rating, sweetalert2, react-chartjs-2
 
 
 

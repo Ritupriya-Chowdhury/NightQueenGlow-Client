@@ -44,7 +44,7 @@ const BuyerIcons = () => {
                     </Link>
                 </li>
                 <li>
-                    <Link to='/buyer-dashboard'>
+                    <Link to='/buyer-dashboard/profile'>
                         <div className="flex">
                             <p className="p-1 text-2xl"> <FaRegCircleUser /></p>
                             <p>Profile</p>

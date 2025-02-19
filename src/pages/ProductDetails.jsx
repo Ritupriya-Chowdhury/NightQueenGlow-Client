@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { AuthContext } from "../components/Provider/AuthCotext";
+import Swal from "sweetalert2";
+
 
 const ProductDetails = () => {
   const { user } = useContext(AuthContext);
@@ -33,12 +35,16 @@ const ProductDetails = () => {
   // Handle Add to Wishlist
   const handleAddToWishlist = async (productId) => {
     const token = localStorage.getItem("jwt"); // Retrieve the token from localStorage
-  
+
     if (!token) {
-      alert("Please log in to add products to your wishlist.");
+      Swal.fire({
+        icon: "warning",
+        title: "Login Required",
+        text: "Please log in to add products to your wishlist.",
+      });
       return;
     }
-  
+
     try {
       const response = await fetch(
         `https://night-queen-glow-server.vercel.app/wishlist/${productId}`,
@@ -51,21 +57,33 @@ const ProductDetails = () => {
           body: JSON.stringify({ productId }), // Send productId if needed
         }
       );
-      console.log(response)
-  
+
       if (!response.ok) {
         throw new Error("Failed to add product to wishlist.");
       }
-  
+
       const data = await response.json();
-      alert("Product added to wishlist successfully!");
-      console.log(data)
-      navigate("/buyer-dashboard/Wishlist");
+
+      Swal.fire({
+        icon: "success",
+        title: "Added to Wishlist!",
+        text: "The product has been successfully added to your wishlist.",
+        confirmButtonColor: "#d33",
+      }).then(() => {
+        navigate("/buyer-dashboard/Wishlist");
+      });
+
+      console.log(data);
     } catch (error) {
       console.error("Error adding to wishlist:", error);
-      alert("An error occurred while adding the product to your wishlist.");
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "An error occurred while adding the product to your wishlist.",
+      });
     }
   };
+
 
   // Loading state
   if (loading) {
@@ -111,7 +129,7 @@ const ProductDetails = () => {
               {product.description}
             </p>
             <div className="text-xl font-bold text-pink-500 mb-4">
-              {product.price}
+              ${product.price.toFixed(2)}
             </div>
             <p className="text-2xl font-semibold text-gray-800 mb-4">
               Seller Name: {product.sellerName}
